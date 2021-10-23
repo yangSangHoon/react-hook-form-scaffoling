@@ -4,12 +4,14 @@ import Login from '~/pages/login/Login';
 import Main from '~/pages/main/Main';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import MatchDetail from './pages/match/MatchDetail';
+import { Global } from '@emotion/react';
 
 const queryClient = new QueryClient();
 
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
+            <Global />
             <BrowserRouter>
                 <Switch>
                     <Route path="/login" exact component={Login} />
