@@ -5,7 +5,7 @@ interface Props {
 
 const ExplainError: React.VFC<Props> = ({ explainByErrorTypes, errorType }) => {
     const error = explainByErrorTypes.find((item) => item.type === errorType);
-    return <>{error && <div>{error.explain}</div>}</>;
+    return <>{error && <div className="error">{error.explain}</div>}</>;
 };
 
 export default ExplainError;

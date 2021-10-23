@@ -1,35 +1,33 @@
 import { RouteComponentProps } from 'react-router';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import MatchDetailStyle from './MatchDetailStyle';
 import React from 'react';
 import Input from '~/components/elements/Input';
 import Select from '~/components/elements/Select';
+import MeterialInput from '@material-ui/core/Input';
 
 interface Params {
     id: string;
 }
 
-interface DefaultInfo {
+interface FormData {
     id: string;
+    name: string;
     contractId: string;
     gender: boolean;
+    age: number;
 }
 
 const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
     const {
+        control,
         register,
         handleSubmit,
         watch,
         formState: { errors }
-    } = useForm();
+    } = useForm<FormData>();
 
-    const onSubmit = (data: DefaultInfo) => console.log(data);
-
-    /*
-        name  마다 리랜더링
-    */
-    const name = watch('name');
-    console.log(name);
+    const onSubmit = (data: FormData) => console.log(data);
 
     console.log('errors', errors);
 
@@ -41,7 +39,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                     <tbody>
                         <tr>
                             <td>
-                                <Input
+                                {/* <Input
                                     label="이름"
                                     name="name"
                                     register={register}
@@ -51,7 +49,18 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                                         { type: 'required', explain: '이름은 필수 값입니다.' }
                                     ]}
                                     errors={errors}
-                                ></Input>
+                                ></Input> */}
+                                <label>이름</label>
+                                <div>
+                                    <Controller
+                                        name="name"
+                                        control={control}
+                                        defaultValue=""
+                                        rules={{ required: true, max: 5 }}
+                                        render={({ field }) => <MeterialInput {...field} />}
+                                    />
+                                    {errors.name?.type === 'required' && <div className="error">이름은 필수 값입니다.</div>}
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +82,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                             <td>
                                 <Select
                                     label="성별"
-                                    name="contractId"
+                                    name="gender"
                                     options={[
                                         { value: '', text: '선택' },
                                         { value: 'female', text: 'female' },
