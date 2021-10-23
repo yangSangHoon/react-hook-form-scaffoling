@@ -60,14 +60,5 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix --color",
     "*.{js,jsx,ts,tsx,css,md}": "prettier --write"
-  },
-  "babel": {
-    "presets": [
-      "react-app",
-      "@emotion/babel-preset-css-prop"
-    ],
-    "plugins": [
-      "@emotion"
-    ]
   }
 }
