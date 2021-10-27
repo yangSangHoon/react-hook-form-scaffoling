@@ -6,6 +6,7 @@ export const GlobalStyle = css`
             'Helvetica Neue', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        background-color: gray;
     }
 
     .App-header {
@@ -17,3 +18,5 @@ export const GlobalStyle = css`
         color: white;
     }
 `;
+
+export default GlobalStyle;

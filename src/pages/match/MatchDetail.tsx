@@ -5,6 +5,7 @@ import React from 'react';
 import Input from '~/components/elements/Input';
 import Select from '~/components/elements/Select';
 import MeterialInput from '@material-ui/core/Input';
+import { useEffect } from 'react';
 
 interface Params {
     id: string;
@@ -24,12 +25,22 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors }
     } = useForm<FormData>();
 
     const onSubmit = (data: FormData) => console.log(data);
 
-    console.log('errors', errors);
+    useEffect(() => {
+        reset({
+            name: '양상훈',
+            age: '41',
+            contractId: 'sgegweg2324231wegewg',
+            gender: 'male'
+        });
+    }, []);
+
+    const [show, setShow] = React.useState(true);
 
     return (
         <MatchDetailStyle>
@@ -38,7 +49,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td>
+                            <td className="ui-library">
                                 {/* <Input
                                     label="이름"
                                     name="name"
@@ -59,23 +70,26 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                                         rules={{ required: true, max: 5 }}
                                         render={({ field }) => <MeterialInput {...field} />}
                                     />
-                                    {errors.name?.type === 'required' && <div className="error">이름은 필수 값입니다.</div>}
+                                    {errors?.name?.type === 'required' && <div className="error">이름은 필수 값입니다.</div>}
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <Input
-                                    label="계약 ID"
-                                    name="contractId"
-                                    register={register}
-                                    validateOptions={{ required: true, pattern: /^[A-Za-z]+$/i }}
-                                    explainByErrorTypes={[
-                                        { type: 'pattern', explain: '영문만 입력 가능합니다.' },
-                                        { type: 'required', explain: '계약 ID는 필수 값입니다.' }
-                                    ]}
-                                    errors={errors}
-                                ></Input>
+                                {show && (
+                                    <Input
+                                        label="계약 ID"
+                                        name="contractId"
+                                        register={register}
+                                        validateOptions={{ required: true, pattern: /^[A-Za-z]+$/i }}
+                                        placeholder="영문만 입력 가능합니다."
+                                        explainByErrorTypes={[
+                                            { type: 'pattern', explain: '영문만 입력 가능합니다.' },
+                                            { type: 'required', explain: '계약 ID는 필수 값입니다.' }
+                                        ]}
+                                        errors={errors}
+                                    ></Input>
+                                )}
                             </td>
                         </tr>
                         <tr>
@@ -101,6 +115,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                                     name="age"
                                     register={register}
                                     validateOptions={{ min: 18, max: 999 }}
+                                    placeholder="18~999세까지 입력 가능합니다."
                                     explainByErrorTypes={[
                                         { type: 'min', explain: '18이상으로 입력해 주세요' },
                                         { type: 'max', explain: '999세 이하로 입력해 주세요.' }
@@ -113,6 +128,10 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                 </table>
                 <button type="submit">저장</button>
             </form>
+
+            <button type="button" onClick={() => setShow(false)}>
+                계약 ID 제거
+            </button>
         </MatchDetailStyle>
     );
 };

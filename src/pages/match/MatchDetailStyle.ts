@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const MatchDetailStyle = styled.div`
+    background-color: white;
     border: 1px solid gray;
     padding: 20px;
     max-width: 500px;
@@ -14,21 +15,13 @@ const MatchDetailStyle = styled.div`
         width: 100%;
     }
 
-    td {
-        display: flex;
-        align-items: center;
-        label {
+    .ui-library {
+        > label {
             display: inline-block;
-            width: 80px;
+            width: 70px;
         }
-        div {
-            width: 100%;
-        }
-        input,
-        select {
-            width: 100%;
-            height: 30px;
-            padding: 0;
+        > div {
+            display: inline-block;
         }
     }
 

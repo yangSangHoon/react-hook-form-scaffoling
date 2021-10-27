@@ -1,5 +1,6 @@
 import React, { LegacyRef, ReactElement } from 'react';
 import ExplainError from './ExplainError';
+import SelectStyle from './SelectStyle';
 
 interface Props {
     name: string;
@@ -13,7 +14,7 @@ interface Props {
 
 const Select = React.forwardRef(
     ({ name, label, explainByErrorTypes, errors, options, onChange, onBlur }: Props, ref: LegacyRef<HTMLSelectElement> | undefined): ReactElement => (
-        <>
+        <SelectStyle>
             <label>{label}</label>
             <div>
                 <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
@@ -25,7 +26,7 @@ const Select = React.forwardRef(
                 </select>
                 <ExplainError explainByErrorTypes={explainByErrorTypes} errorType={errors[name]?.type}></ExplainError>
             </div>
-        </>
+        </SelectStyle>
     )
 );
 
