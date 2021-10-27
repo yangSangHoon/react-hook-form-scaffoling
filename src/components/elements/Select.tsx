@@ -13,11 +13,14 @@ interface Props {
 }
 
 const Select = React.forwardRef(
-    ({ name, label, explainByErrorTypes, errors, options, onChange, onBlur }: Props, ref: LegacyRef<HTMLSelectElement> | undefined): ReactElement => (
+    (
+        { register, name, label, explainByErrorTypes, errors, options, onChange, onBlur }: Props,
+        ref: LegacyRef<HTMLSelectElement> | undefined
+    ): ReactElement => (
         <SelectStyle>
             <label>{label}</label>
             <div>
-                <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+                <select name={name} ref={ref} onChange={onChange} onBlur={onBlur} {...register(name)}>
                     {options.map((option, index) => (
                         <option value={option.value} key={index}>
                             {option.text}

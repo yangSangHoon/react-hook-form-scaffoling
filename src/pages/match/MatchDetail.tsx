@@ -26,6 +26,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
         handleSubmit,
         watch,
         reset,
+        getValues,
         formState: { errors }
     } = useForm<FormData>();
 
@@ -42,6 +43,16 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
 
     const [show, setShow] = React.useState(true);
 
+    const handleGetValue = () => {
+        const allData = getValues();
+        const nameData = getValues('name');
+        const listData = getValues(['name', 'gender']);
+
+        console.log('allData', allData);
+        console.log('nameData', nameData);
+        console.log('listData', listData);
+    };
+
     return (
         <MatchDetailStyle>
             <h1>기본 정보</h1>
@@ -50,17 +61,6 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                     <tbody>
                         <tr>
                             <td className="ui-library">
-                                {/* <Input
-                                    label="이름"
-                                    name="name"
-                                    register={register}
-                                    validateOptions={{ required: true, maxLength: 4 }}
-                                    explainByErrorTypes={[
-                                        { type: 'maxLength', explain: '4글자 이하로 입력해 주세요.' },
-                                        { type: 'required', explain: '이름은 필수 값입니다.' }
-                                    ]}
-                                    errors={errors}
-                                ></Input> */}
                                 <label>이름</label>
                                 <div>
                                     <Controller
@@ -97,6 +97,7 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                                 <Select
                                     label="성별"
                                     name="gender"
+                                    register={register}
                                     options={[
                                         { value: '', text: '선택' },
                                         { value: 'female', text: 'female' },
@@ -131,6 +132,10 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
 
             <button type="button" onClick={() => setShow(false)}>
                 계약 ID 제거
+            </button>
+
+            <button type="button" onClick={handleGetValue}>
+                getValue
             </button>
         </MatchDetailStyle>
     );
