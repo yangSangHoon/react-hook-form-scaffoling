@@ -1,5 +1,5 @@
 import { RouteComponentProps } from 'react-router';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm, Controller, FormProvider, useFieldArray } from 'react-hook-form';
 import MatchDetailStyle from './MatchDetailStyle';
 import React from 'react';
 import Input from '~/components/elements/Input';
@@ -20,30 +20,24 @@ interface FormData {
 }
 
 const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
-    // const {
-    //     control,
-    //     register,
-    //     handleSubmit,
-    //     watch,
-    //     reset,
-    //     getValues,
-    //     formState: { errors }
-    // } = useForm<FormData>();
+    const [show, setShow] = React.useState(true);
 
-    const methods = useForm<FormData>();
-
-    const onSubmit = (data: FormData) => console.log(data);
-
-    useEffect(() => {
-        methods.reset({
+    const methods = useForm<FormData>({
+        defaultValues: {
             name: '양상훈',
             age: '41',
             contractId: 'sgegweg2324231wegewg',
-            gender: 'male'
-        });
-    }, []);
+            gender: 'male',
+            hobbys: [{ value: '축구' }, { value: '오락' }, { value: '영화' }, { value: '독서' }, { value: '음악' }]
+        }
+    });
 
-    const [show, setShow] = React.useState(true);
+    const { fields, append } = useFieldArray({
+        control: methods.control,
+        name: 'hobbys'
+    });
+
+    const onSubmit = (data: FormData) => console.log(data);
 
     const handleGetValue = () => {
         const allData = getValues();
@@ -64,19 +58,16 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                         <tbody>
                             <tr>
                                 <td className="ui-library">
-                                    <label>이름</label>
-                                    <div>
-                                        <Input
-                                            label="이름"
-                                            name="name"
-                                            validateOptions={{ required: true, max: 5 }}
-                                            placeholder="이름을 입력해 주세요"
-                                            explainByErrorTypes={[
-                                                { type: 'pattern', explain: '영문만 입력 가능합니다.' },
-                                                { type: 'required', explain: '계약 ID는 필수 값입니다.' }
-                                            ]}
-                                        ></Input>
-                                    </div>
+                                    <Input
+                                        label="이름"
+                                        name="name"
+                                        validateOptions={{ required: true, max: 5 }}
+                                        placeholder="이름을 입력해 주세요"
+                                        explainByErrorTypes={[
+                                            { type: 'pattern', explain: '영문만 입력 가능합니다.' },
+                                            { type: 'required', explain: '계약 ID는 필수 값입니다.' }
+                                        ]}
+                                    ></Input>
                                 </td>
                             </tr>
                             <tr>
@@ -126,6 +117,16 @@ const MatchDetail: React.VFC<RouteComponentProps<Params>> = ({ match }) => {
                             </tr>
                         </tbody>
                     </table>
+                    <div style={{ paddingTop: '10px' }}>
+                        <label>취미</label>
+                        <div>
+                            {fields.map((item, i) => (
+                                <div key={item.id}>
+                                    <input {...methods.register(`hobbys[${i}].value`)} defaultValue={item.value} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                     <button type="submit">저장</button>
                 </form>
             </FormProvider>
